@@ -25,15 +25,15 @@ import java.lang.annotation.Target;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerTokenServicesConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 
 /**
- * Enable OAuth2 Single Sign On (SSO). If there is an existing
- * {@link WebSecurityConfigurerAdapter} provided by the user and annotated with
- * {@code @EnableOAuth2Sso}, it is enhanced by adding an authentication filter and an
- * authentication entry point. If the user only has {@code @EnableOAuth2Sso} but not on a
- * WebSecurityConfigurerAdapter then one is added with all paths secured.
+ * Enable OAuth2 Single Sign On (SSO). It is also required to manually configure
+ * {@link org.springframework.security.config.annotation.web.builders.HttpSecurity HttpSecurity}
+ * with {@link SsoSecurityConfigurer}. Example:
+ * <pre><code>
+ *     new SsoSecurityConfigurer(applicationContext).configure(http);
+ * </code></pre>
  *
  * @author Dave Syer
  * @since 1.3.0
@@ -46,9 +46,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @Documented
 @EnableOAuth2Client
 @EnableConfigurationProperties(OAuth2SsoProperties.class)
-@Import({ OAuth2SsoDefaultConfiguration.class, OAuth2SsoCustomConfiguration.class,
-		ResourceServerTokenServicesConfiguration.class })
+@Import({ ResourceServerTokenServicesConfiguration.class })
 @Deprecated
 public @interface EnableOAuth2Sso {
-
 }

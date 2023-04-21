@@ -16,7 +16,7 @@
 
 package org.springframework.boot.autoconfigure.security.oauth2.sso;
 
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +26,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2AutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.autoconfigure.security.oauth2.client.SsoSecurityConfigurer;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
@@ -89,13 +92,23 @@ public class CustomOAuth2SsoWithAuthenticationEntryPointConfigurationTests {
 	@EnableOAuth2Sso
 	@Import(OAuth2AutoConfiguration.class)
 	@MinimalSecureWebConfiguration
-	protected static class TestConfiguration extends WebSecurityConfigurerAdapter {
+	protected static class TestConfiguration {
 
-		@Override
-		public void configure(HttpSecurity http) throws Exception {
-			http.antMatcher("/ui/**").authorizeRequests().antMatchers("/ui/test").permitAll().anyRequest()
-					.authenticated().and().exceptionHandling()
-					.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+		@Bean
+		public SecurityFilterChain securityFilterChain(HttpSecurity http, ApplicationContext applicationContext) throws Exception {
+			http.securityMatcher("/ui/**")
+					.authorizeHttpRequests(authz -> authz
+							.requestMatchers("/ui/test").permitAll()
+							.anyRequest().authenticated()
+					)
+					.exceptionHandling(exceptionHandling -> exceptionHandling
+							.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+					)
+					.build();
+
+			new SsoSecurityConfigurer(applicationContext).configure(http);
+
+			return http.build();
 		}
 
 		@RestController

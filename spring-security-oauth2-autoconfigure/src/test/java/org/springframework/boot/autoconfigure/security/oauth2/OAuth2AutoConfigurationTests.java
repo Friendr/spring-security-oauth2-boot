@@ -65,8 +65,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
@@ -94,6 +95,7 @@ import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -497,20 +499,16 @@ public class OAuth2AutoConfigurationTests {
 	}
 
 	@Configuration
-	protected static class TestSecurityConfiguration extends WebSecurityConfigurerAdapter {
+	protected static class TestSecurityConfiguration {
 
-		@Override
 		@Bean
-		public AuthenticationManager authenticationManagerBean() throws Exception {
-			return super.authenticationManagerBean();
-		}
-
-		@Autowired
-		public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-			// @formatter:off
-			auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()).withUser("foo")
-					.password("bar").roles("USER");
-			// @formatter:on
+		public InMemoryUserDetailsManager userDetailsService() {
+			UserDetails user = User.withDefaultPasswordEncoder()
+					.username("foo")
+					.password("bar")
+					.roles("USER")
+					.build();
+			return new InMemoryUserDetailsManager(user);
 		}
 
 		@Bean

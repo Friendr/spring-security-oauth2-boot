@@ -43,11 +43,11 @@ import org.springframework.web.accept.HeaderContentNegotiationStrategy;
  *
  * @author Dave Syer
  */
-class SsoSecurityConfigurer {
+public class SsoSecurityConfigurer {
 
 	private ApplicationContext applicationContext;
 
-	SsoSecurityConfigurer(ApplicationContext applicationContext) {
+	public SsoSecurityConfigurer(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}
 

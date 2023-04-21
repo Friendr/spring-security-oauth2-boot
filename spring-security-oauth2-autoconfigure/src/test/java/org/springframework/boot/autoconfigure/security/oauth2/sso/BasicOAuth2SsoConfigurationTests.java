@@ -16,7 +16,7 @@
 
 package org.springframework.boot.autoconfigure.security.oauth2.sso;
 
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 
 import org.junit.Before;
 import org.junit.Test;
