@@ -95,15 +95,13 @@ public class CustomOAuth2SsoConfigurationTests {
 	@EnableOAuth2Sso
 	@Import(OAuth2AutoConfiguration.class)
 	@MinimalSecureWebConfiguration
-	protected static class TestConfiguration  {
+	protected static class TestConfiguration {
 
 		@Bean
 		public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 			return http.securityMatcher("/ui/**")
-					.authorizeHttpRequests(authz -> authz
-							.requestMatchers("/ui/test").permitAll()
-							.anyRequest().authenticated()
-					)
+					.authorizeHttpRequests(
+							authz -> authz.requestMatchers("/ui/test").permitAll().anyRequest().authenticated())
 					.build();
 		}
 

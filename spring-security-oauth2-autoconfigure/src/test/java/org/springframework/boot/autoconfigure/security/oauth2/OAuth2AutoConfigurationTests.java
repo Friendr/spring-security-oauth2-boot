@@ -503,11 +503,7 @@ public class OAuth2AutoConfigurationTests {
 
 		@Bean
 		public InMemoryUserDetailsManager userDetailsService() {
-			UserDetails user = User.withDefaultPasswordEncoder()
-					.username("foo")
-					.password("bar")
-					.roles("USER")
-					.build();
+			UserDetails user = User.withDefaultPasswordEncoder().username("foo").password("bar").roles("USER").build();
 			return new InMemoryUserDetailsManager(user);
 		}
 

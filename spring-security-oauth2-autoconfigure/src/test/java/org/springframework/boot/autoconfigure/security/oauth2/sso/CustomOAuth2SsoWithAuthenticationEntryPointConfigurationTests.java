@@ -95,15 +95,13 @@ public class CustomOAuth2SsoWithAuthenticationEntryPointConfigurationTests {
 	protected static class TestConfiguration {
 
 		@Bean
-		public SecurityFilterChain securityFilterChain(HttpSecurity http, ApplicationContext applicationContext) throws Exception {
+		public SecurityFilterChain securityFilterChain(HttpSecurity http, ApplicationContext applicationContext)
+				throws Exception {
 			http.securityMatcher("/ui/**")
-					.authorizeHttpRequests(authz -> authz
-							.requestMatchers("/ui/test").permitAll()
-							.anyRequest().authenticated()
-					)
+					.authorizeHttpRequests(
+							authz -> authz.requestMatchers("/ui/test").permitAll().anyRequest().authenticated())
 					.exceptionHandling(exceptionHandling -> exceptionHandling
-							.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-					)
+							.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
 					.build();
 
 			new SsoSecurityConfigurer(applicationContext).configure(http);

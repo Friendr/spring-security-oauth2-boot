@@ -29,9 +29,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 /**
  * Enable OAuth2 Single Sign On (SSO). It is also required to manually configure
- * {@link org.springframework.security.config.annotation.web.builders.HttpSecurity HttpSecurity}
- * with {@link SsoSecurityConfigurer}. Example:
- * <pre><code>
+ * {@link org.springframework.security.config.annotation.web.builders.HttpSecurity
+ * HttpSecurity} with {@link SsoSecurityConfigurer}. Example: <pre><code>
  *     new SsoSecurityConfigurer(applicationContext).configure(http);
  * </code></pre>
  *
@@ -49,4 +48,5 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @Import({ ResourceServerTokenServicesConfiguration.class })
 @Deprecated
 public @interface EnableOAuth2Sso {
+
 }
