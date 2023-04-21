@@ -1,4 +1,6 @@
-apply plugin: 'io.spring.convention.docs'
+plugins {
+	id "io.spring.convention.docs"
+}
 
 asciidoctor {
 	def ghTag = snapshotBuild ? 'master' : project.version
