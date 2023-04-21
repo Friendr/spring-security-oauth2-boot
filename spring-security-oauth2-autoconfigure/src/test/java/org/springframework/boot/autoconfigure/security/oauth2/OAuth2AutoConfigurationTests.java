@@ -25,7 +25,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 
 import org.springframework.aop.support.AopUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.OAuth2AuthorizationServerConfiguration;
 import org.springframework.boot.autoconfigure.security.oauth2.method.OAuth2MethodSecurityExpressionHandlerConfiguration;
@@ -61,7 +60,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreInvocationAuthorizationAdvice;
 import org.springframework.security.access.prepost.PrePostAnnotationSecurityMetadataSource;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

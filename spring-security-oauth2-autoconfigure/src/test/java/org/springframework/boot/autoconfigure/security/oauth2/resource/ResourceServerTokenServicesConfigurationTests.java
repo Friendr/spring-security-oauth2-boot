@@ -33,7 +33,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.boot.web.servlet.server.MockServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -83,7 +83,7 @@ public class OAuth2AuthorizationServerConfiguration {
 
 		private final AuthorizationServerProperties properties;
 
-		public AuthorizationSecurityConfigurer(BaseClientDetails details,
+		AuthorizationSecurityConfigurer(BaseClientDetails details,
 				AuthenticationConfiguration authenticationConfiguration, ObjectProvider<TokenStore> tokenStore,
 				ObjectProvider<AccessTokenConverter> tokenConverter, AuthorizationServerProperties properties)
 				throws Exception {
