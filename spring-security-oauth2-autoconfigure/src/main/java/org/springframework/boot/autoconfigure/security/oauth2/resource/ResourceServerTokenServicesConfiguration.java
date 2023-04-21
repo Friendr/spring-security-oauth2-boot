@@ -66,8 +66,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 import org.springframework.security.oauth2.provider.token.store.jwk.JwkTokenStore;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.MultiValueMap;
@@ -116,58 +114,6 @@ public class ResourceServerTokenServicesConfiguration {
 				services.setCheckTokenEndpointUrl(this.resource.getTokenInfoUri());
 				services.setClientId(this.resource.getClientId());
 				services.setClientSecret(this.resource.getClientSecret());
-				return services;
-			}
-
-		}
-
-		@Configuration
-		@ConditionalOnClass(OAuth2ConnectionFactory.class)
-		@Conditional(NotTokenInfoCondition.class)
-		protected static class SocialTokenServicesConfiguration {
-
-			private final ResourceServerProperties sso;
-
-			private final OAuth2ConnectionFactory<?> connectionFactory;
-
-			private final OAuth2RestOperations restTemplate;
-
-			private final AuthoritiesExtractor authoritiesExtractor;
-
-			private final PrincipalExtractor principalExtractor;
-
-			public SocialTokenServicesConfiguration(ResourceServerProperties sso,
-					ObjectProvider<OAuth2ConnectionFactory<?>> connectionFactory,
-					UserInfoRestTemplateFactory restTemplateFactory,
-					ObjectProvider<AuthoritiesExtractor> authoritiesExtractor,
-					ObjectProvider<PrincipalExtractor> principalExtractor) {
-				this.sso = sso;
-				this.connectionFactory = connectionFactory.getIfAvailable();
-				this.restTemplate = restTemplateFactory.getUserInfoRestTemplate();
-				this.authoritiesExtractor = authoritiesExtractor.getIfAvailable();
-				this.principalExtractor = principalExtractor.getIfAvailable();
-			}
-
-			@Bean
-			@ConditionalOnBean(ConnectionFactoryLocator.class)
-			@ConditionalOnMissingBean(ResourceServerTokenServices.class)
-			public SpringSocialTokenServices socialTokenServices() {
-				return new SpringSocialTokenServices(this.connectionFactory, this.sso.getClientId());
-			}
-
-			@Bean
-			@ConditionalOnMissingBean({ ConnectionFactoryLocator.class, ResourceServerTokenServices.class })
-			public UserInfoTokenServices userInfoTokenServices() {
-				UserInfoTokenServices services = new UserInfoTokenServices(this.sso.getUserInfoUri(),
-						this.sso.getClientId());
-				services.setTokenType(this.sso.getTokenType());
-				services.setRestTemplate(this.restTemplate);
-				if (this.authoritiesExtractor != null) {
-					services.setAuthoritiesExtractor(this.authoritiesExtractor);
-				}
-				if (this.principalExtractor != null) {
-					services.setPrincipalExtractor(this.principalExtractor);
-				}
 				return services;
 			}
 

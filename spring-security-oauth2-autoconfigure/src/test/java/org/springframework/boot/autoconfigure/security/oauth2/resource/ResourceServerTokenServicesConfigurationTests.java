@@ -57,9 +57,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.jwk.JwkTokenStore;
-import org.springframework.social.autoconfigure.SocialWebAutoConfiguration;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.facebook.autoconfigure.FacebookAutoConfiguration;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -211,18 +208,6 @@ public class ResourceServerTokenServicesConfigurationTests {
 		assertThat(services).isNotNull();
 		this.thrown.expect(NoSuchBeanDefinitionException.class);
 		this.context.getBean(RemoteTokenServices.class);
-	}
-
-	@Test
-	public void springSocialUserInfo() {
-		TestPropertyValues.of("security.oauth2.resource.userInfoUri:https://example.com",
-				"spring.social.facebook.app-id=foo", "spring.social.facebook.app-secret=bar").applyTo(this.environment);
-		this.context = new SpringApplicationBuilder(SocialResourceConfiguration.class).environment(this.environment)
-				.web(WebApplicationType.SERVLET).run();
-		ConnectionFactoryLocator connectionFactory = this.context.getBean(ConnectionFactoryLocator.class);
-		assertThat(connectionFactory).isNotNull();
-		SpringSocialTokenServices services = this.context.getBean(SpringSocialTokenServices.class);
-		assertThat(services).isNotNull();
 	}
 
 	@Test
@@ -393,16 +378,6 @@ public class ResourceServerTokenServicesConfigurationTests {
 		@Bean
 		public ResourceServerProperties resourceServerProperties() {
 			return new ResourceServerProperties(this.credentials.getClientId(), this.credentials.getClientSecret());
-		}
-
-	}
-
-	@Import({ FacebookAutoConfiguration.class, SocialWebAutoConfiguration.class })
-	protected static class SocialResourceConfiguration extends ResourceConfiguration {
-
-		@Bean
-		public ServletWebServerFactory webServerFactory() {
-			return new MockServletWebServerFactory();
 		}
 
 	}
