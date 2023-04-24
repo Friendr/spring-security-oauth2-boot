@@ -2,7 +2,7 @@ plugins {
 	id "io.spring.convention.root"
 }
 
-group = 'org.springframework.security.oauth.boot'
+group = 'com.friendr'
 description = 'Spring Security OAuth2 Auto Configuration'
 
 ext.snapshotBuild = version.contains("SNAPSHOT")

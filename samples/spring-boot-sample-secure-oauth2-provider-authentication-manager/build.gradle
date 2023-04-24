@@ -16,7 +16,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	implementation 'org.springframework.security.oauth:spring-security-oauth2'
+	implementation 'com.friendr:spring-security-oauth2'
 	implementation 'org.springframework.security:spring-security-jwt'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

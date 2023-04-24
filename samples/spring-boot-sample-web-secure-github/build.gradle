@@ -14,7 +14,7 @@ dependencies {
 	implementation project(':spring-security-oauth2-autoconfigure')
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.security.oauth:spring-security-oauth2'
+	implementation 'com.friendr:spring-security-oauth2'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
