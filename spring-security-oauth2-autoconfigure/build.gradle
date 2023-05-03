@@ -39,3 +39,21 @@ dependencies {
 }
 
 compileJava.dependsOn(processResources)
+
+repositories {
+	maven {
+		name 'friendr'
+		url 'https://maven.pkg.github.com/friendr/friendr-maven-repo'
+		credentials(PasswordCredentials)
+	}
+}
+
+publishing {
+	repositories {
+		maven {
+			name 'friendr'
+			url 'https://maven.pkg.github.com/friendr/friendr-maven-repo'
+			credentials(PasswordCredentials)
+		}
+	}
+}
