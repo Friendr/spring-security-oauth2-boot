@@ -1,0 +1,21 @@
+steps:
+- id: publish to maven
+  name: eclipse-temurin:17-jdk
+  entrypoint: bash
+  args:
+  - '-c'
+  - >-
+    ./gradlew :spring-security-oauth2-autoconfigure:publishMavenJavaPublicationToFriendrRepository
+    -PfriendrUsername=$$CI_MAVEN_USERNAME -PfriendrPassword=$$CI_MAVEN_PASSWORD
+  env:
+  - CI_MAVEN_USERNAME=$_CI_MAVEN_USERNAME
+  secretEnv:
+  - CI_MAVEN_PASSWORD
+
+substitutions:
+  _CI_MAVEN_USERNAME: friendrapp
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/friendr-246611/secrets/CI_MAVEN_PASSWORD/versions/latest
+    env: CI_MAVEN_PASSWORD
