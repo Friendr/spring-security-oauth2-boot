@@ -9,7 +9,7 @@ javaPlatform {
 dependencies {
 	constraints {
 		api "com.friendr:spring-security-oauth2:$springSecurityOAuthVersion"
-		api "org.springframework.security:spring-security-jwt:$springSecurityJwtVersion"
+		api "com.friendr:spring-security-jwt:$springSecurityJwtVersion"
 //		api "org.springframework.social:spring-social-config:$springSocialVersion"
 //		api "org.springframework.social:spring-social-core:$springSocialVersion"
 //		api "org.springframework.social:spring-social-facebook:2.0.3.RELEASE"

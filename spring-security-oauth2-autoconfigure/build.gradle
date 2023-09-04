@@ -11,7 +11,7 @@ dependencies {
 	api 'org.springframework.boot:spring-boot-autoconfigure'
 	api 'org.springframework:spring-web'
 	api 'com.friendr:spring-security-oauth2'
-	api "org.springframework.security:spring-security-jwt"
+	api "com.friendr:spring-security-jwt"
 	api 'com.fasterxml.jackson.core:jackson-annotations'
 	api 'com.fasterxml.jackson.core:jackson-databind'
 //	api 'jakarta.xml.bind:jakarta.xml.bind-api'
