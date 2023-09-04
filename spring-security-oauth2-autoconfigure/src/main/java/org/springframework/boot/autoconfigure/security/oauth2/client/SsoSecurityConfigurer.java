@@ -60,20 +60,21 @@ public class SsoSecurityConfigurer {
 	}
 
 	private void addAuthenticationEntryPoint(HttpSecurity http, OAuth2SsoProperties sso) throws Exception {
-		ExceptionHandlingConfigurer<HttpSecurity> exceptions = http.exceptionHandling();
-		ContentNegotiationStrategy contentNegotiationStrategy = http.getSharedObject(ContentNegotiationStrategy.class);
-		if (contentNegotiationStrategy == null) {
-			contentNegotiationStrategy = new HeaderContentNegotiationStrategy();
-		}
-		MediaTypeRequestMatcher preferredMatcher = new MediaTypeRequestMatcher(contentNegotiationStrategy,
-				MediaType.APPLICATION_XHTML_XML, new MediaType("image", "*"), MediaType.TEXT_HTML,
-				MediaType.TEXT_PLAIN);
-		preferredMatcher.setIgnoredMediaTypes(Collections.singleton(MediaType.ALL));
-		exceptions.defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint(sso.getLoginPath()),
-				preferredMatcher);
-		// When multiple entry points are provided the default is the first one
-		exceptions.defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-				new RequestHeaderRequestMatcher("X-Requested-With", "XMLHttpRequest"));
+		http.exceptionHandling(exceptions -> {
+			ContentNegotiationStrategy contentNegotiationStrategy = http.getSharedObject(ContentNegotiationStrategy.class);
+			if (contentNegotiationStrategy == null) {
+				contentNegotiationStrategy = new HeaderContentNegotiationStrategy();
+			}
+			MediaTypeRequestMatcher preferredMatcher = new MediaTypeRequestMatcher(contentNegotiationStrategy,
+					MediaType.APPLICATION_XHTML_XML, new MediaType("image", "*"), MediaType.TEXT_HTML,
+					MediaType.TEXT_PLAIN);
+			preferredMatcher.setIgnoredMediaTypes(Collections.singleton(MediaType.ALL));
+			exceptions.defaultAuthenticationEntryPointFor(new LoginUrlAuthenticationEntryPoint(sso.getLoginPath()),
+					preferredMatcher);
+			// When multiple entry points are provided the default is the first one
+			exceptions.defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
+					new RequestHeaderRequestMatcher("X-Requested-With", "XMLHttpRequest"));
+		});
 	}
 
 	private OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties sso) {
